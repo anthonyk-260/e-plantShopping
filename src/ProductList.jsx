@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import './ProductList.css'
 import CartItem from './CartItem';
 import { addItem } from './CartSlice'; //Task #1, part 6
-function ProductList({ onHomeClick }) {
+
+function ProductList({ onHomeClick, addedToCart, setAddedToCart }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const [addedToCart, setAddedToCart] = useState({});
     const dispatch = useDispatch();
 
     const plantsArray = [
@@ -266,8 +266,6 @@ function ProductList({ onHomeClick }) {
         }));
       };
 
-    
-
     return (
         <div>
             <div className="navbar" style={styleObj}>
@@ -296,8 +294,8 @@ function ProductList({ onHomeClick }) {
                             <div>{category.category}</div> {/* Display the category name */}
                             </h1>
                             <div className="product-list"> {/* Container for the list of plant cards */}
-                            {category.plants.map((plant, plantIndex) => ( // Loop through each plant in the current category
-                                <div className="product-card" key={plantIndex}> {/* Unique key for each plant card */}
+                            {category.plants.map((plant) => ( // Loop through each plant in the current category
+                                <div className="product-card" key={plant.name}> {/* Unique key for each plant card */}
                                 <img 
                                     className="product-image" 
                                     src={plant.image} // Display the plant image
@@ -310,7 +308,7 @@ function ProductList({ onHomeClick }) {
                                 <button
                                     className="product-button"
                                     onClick={() => handleAddToCart(plant)} // Handle adding plant to cart
-                                    disabled={addedToCart[plant]}
+                                    disabled={addedToCart[plant.name]}
                                     style={{
                                         backgroundColor: addedToCart[plant.name] ? 'grey' : '#007bff',
                                         cursor: addedToCart[plant.name] ? 'not-allowed' : 'pointer',
@@ -325,7 +323,10 @@ function ProductList({ onHomeClick }) {
                     ))}
                 </div>
             ) : (
-                <CartItem onContinueShopping={handleContinueShopping} />
+                <CartItem 
+                onContinueShopping={handleContinueShopping} 
+                addedToCart={addedToCart}
+                setAddedToCart={setAddedToCart}/>
             )}
         </div>
     );
