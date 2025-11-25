@@ -35,6 +35,14 @@ const CartItem = ({  onContinueShopping, addedToCart, setAddedToCart }) => {
         dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
    } else {
         dispatch(removeItem( item.name ));
+
+        setAddedToCart(prevState => {
+            const newState = { ...prevState };
+            if (newState[item.name]) {
+                delete newState[item.name];
+            }
+            return newState;
+        });
    }
   };
 
@@ -60,9 +68,9 @@ const CartItem = ({  onContinueShopping, addedToCart, setAddedToCart }) => {
   };
 
   //Task #4?
-  const calculateTotalQuantity = () => {
+  /*const calculateTotalQuantity = () => {
     return CartItems ? CartItems.reduce((total, item) => total + item.quantity, 0) : 0;
-  };
+  };*/
 
   return (
     <div className="cart-container">
