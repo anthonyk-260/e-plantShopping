@@ -266,6 +266,8 @@ function ProductList({ onHomeClick }) {
         }));
       };
 
+    
+
     return (
         <div>
             <div className="navbar" style={styleObj}>
@@ -308,8 +310,13 @@ function ProductList({ onHomeClick }) {
                                 <button
                                     className="product-button"
                                     onClick={() => handleAddToCart(plant)} // Handle adding plant to cart
+                                    disabled={addedToCart[plant]}
+                                    style={{
+                                        backgroundColor: addedToCart[plant.name] ? 'grey' : '#007bff',
+                                        cursor: addedToCart[plant.name] ? 'not-allowed' : 'pointer',
+                                    }}
                                 >
-                                    Add to Cart
+                                    {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
                                 </button>
                                 </div>
                             ))}
